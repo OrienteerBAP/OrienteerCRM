@@ -1,0 +1,3 @@
+FROM orienteer/orienteer:latest
+COPY orienteer-crm-war/target/orienteer-crm-war.war ${JETTY_BASE}/webapps/ROOT.war
+COPY orienteer.properties ${ORIENTEER_HOME}
