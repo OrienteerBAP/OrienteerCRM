@@ -36,7 +36,7 @@
 		<module name="MethodTypeParameterName"/>
 		<module name="ClassTypeParameterName"/>
 		<module name="AnonInnerLength">
-            <property name="max" value="60"/>
+            <property name="max" value="120"/>
 		</module>
 		<module name="ArrayTypeStyle"/>
 		<module name="EmptyStatement"/>

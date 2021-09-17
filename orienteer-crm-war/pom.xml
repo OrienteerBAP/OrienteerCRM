@@ -23,7 +23,6 @@
     <groupId>org.orienteer.crm</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-	<groupId>org.orienteer.crm</groupId>
 	<artifactId>orienteer-crm-war</artifactId>
 	<packaging>war</packaging>
 	<!-- TODO project name  -->

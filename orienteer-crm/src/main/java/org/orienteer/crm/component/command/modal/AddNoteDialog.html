@@ -1,0 +1,12 @@
+<wicket:panel xmlns:wicket="http://www.w3.org/1999/xhtml">
+<form wicket:id="addNoteForm">
+  <div class="form-group">
+    <label wicket:for="tabName"><wicket:message key="command.addnote.note">Note to add</wicket:message></label>
+    <textarea wicket:id="note" class="form-control" rows="5">
+    </textarea>
+  </div>
+  <button type="submit" class="btn btn-primary" wicket:id="addNote">
+  	<wicket:message key="command.addnote">Add Note</wicket:message>
+  </button>
+</form>
+</wicket:panel>

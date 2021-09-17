@@ -26,8 +26,8 @@ public class TestModule
 	{
 	    OrienteerWebApplication app = tester.getApplication();
 	    assertNotNull(app);
-	    IOrienteerModule module = app.getModuleByName("orienteer-crm");
+	    IOrienteerModule module = app.getModuleByName(CRMModule.NAME);
 	    assertNotNull(module);
-	    assertTrue(module instanceof Module);
+	    assertTrue(module instanceof CRMModule);
 	}
 }

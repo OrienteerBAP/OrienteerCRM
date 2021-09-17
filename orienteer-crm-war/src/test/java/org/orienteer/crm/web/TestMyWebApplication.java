@@ -1,4 +1,4 @@
-package org.orienteer.crm.demo;
+package org.orienteer.crm.web;
 
 import org.orienteer.junit.OrienteerTestRunner;
 
@@ -22,6 +22,6 @@ public class TestMyWebApplication
 	@Test
 	public void testWebApplicationClass()
 	{
-	    assertTrue(tester.getApplication() instanceof MyWebApplication);
+	    assertTrue(tester.getApplication() instanceof CRMWebApplication);
 	}
 }

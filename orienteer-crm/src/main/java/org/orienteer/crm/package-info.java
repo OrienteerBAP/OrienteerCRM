@@ -1,4 +1,4 @@
 /**
- * Main package for 'orienteer-crm' module
+ * Main package for Orienteer CRM module
  */
 package org.orienteer.crm;
