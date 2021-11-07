@@ -1,11 +1,13 @@
 package org.orienteer.crm.model;
 
 import org.orienteer.core.OClassDomain;
-import org.orienteer.core.dao.DAODefaultValue;
-import org.orienteer.core.dao.DAOField;
-import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOClass;
 import org.orienteer.core.module.IOrienteerModule;
+import org.orienteer.transponder.annotation.DefaultValue;
+import org.orienteer.transponder.annotation.EntityProperty;
+import org.orienteer.transponder.annotation.EntityType;
+import org.orienteer.transponder.orientdb.OrientDBProperty;
 
 import com.google.inject.ProvidedBy;
 import com.orientechnologies.orient.core.metadata.security.OUser;
@@ -15,10 +17,10 @@ import com.twilio.Twilio;
  * DAO to configure/customize CRM Module 
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = ICRMModuleConfiguration.CLASS_NAME, 
-			superClasses = {IOrienteerModule.OMODULE_CLASS},
-			domain = OClassDomain.SPECIFICATION,
+@EntityType(value = ICRMModuleConfiguration.CLASS_NAME, 
+			superTypes = {IOrienteerModule.OMODULE_CLASS},
 			orderOffset = 50)
+@OrienteerOClass(domain = OClassDomain.SPECIFICATION)
 public interface ICRMModuleConfiguration {
 	public static final String CLASS_NAME = "CRMModule";
 	
@@ -31,12 +33,11 @@ public interface ICRMModuleConfiguration {
 	public String getTwilioEndPoint();
 	public void setTwilioEndPoint(String value);
 	
-	@DAOField(defaultValue = "false")
-	@DAODefaultValue("false")
+	@OrientDBProperty(defaultValue = "false")
 	public boolean getRequestStatusReport();
-	public void setRequestStatusReport();
+	public void setRequestStatusReport(boolean value);
 	
-	@DAOField(linkedClass = OUser.CLASS_NAME)
+	@EntityProperty(referencedType = OUser.CLASS_NAME)
 	public OUser getDefaultManager();
 	public void setDefaultManager(OUser value);
 	

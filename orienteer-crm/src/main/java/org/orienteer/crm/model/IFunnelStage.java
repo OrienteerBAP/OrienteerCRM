@@ -1,11 +1,9 @@
 package org.orienteer.crm.model;
 
-import org.orienteer.core.dao.DAODefaultValue;
-import org.orienteer.core.dao.DAOField;
-import org.orienteer.core.dao.DAOOClass;
-import org.orienteer.core.dao.Lookup;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
 import org.orienteer.core.dao.dm.IOEnum;
+import org.orienteer.transponder.annotation.EntityType;
+import org.orienteer.transponder.orientdb.OrientDBProperty;
 
 import com.google.inject.ProvidedBy;
 
@@ -13,17 +11,15 @@ import com.google.inject.ProvidedBy;
  * Funnel stage of a perticular lead/contact 
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(IFunnelStage.CLASS_NAME)
+@EntityType(IFunnelStage.CLASS_NAME)
 public interface IFunnelStage extends IOEnum {
 	public static final String CLASS_NAME = "FunnelStage";
 	
-	@DAOField(defaultValue = "false")
-	@DAODefaultValue("false")
+	@OrientDBProperty(defaultValue = "false")
 	public boolean getDelist();
 	public IFunnelStage setDelist(boolean value);
 	
-	@DAOField(defaultValue = "false")
-	@DAODefaultValue("false")
+	@OrientDBProperty(defaultValue = "false")
 	public boolean isDoNotCall();
 	public IFunnelStage setDoNotCall(boolean value);
 	

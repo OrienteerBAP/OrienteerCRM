@@ -11,13 +11,11 @@ import javax.ws.rs.FormParam;
 import org.apache.wicket.model.IModel;
 import org.orienteer.core.OrienteerWebApplication;
 import org.orienteer.core.OrienteerWebSession;
-import org.orienteer.core.dao.Command;
 import org.orienteer.core.dao.DAO;
-import org.orienteer.core.dao.DAOHandler;
 import org.orienteer.core.dao.DAOProvider;
-import org.orienteer.core.dao.Query;
-import org.orienteer.core.dao.handler.extra.SudoMethodHandler;
 import org.orienteer.crm.CRMModule;
+import org.orienteer.transponder.annotation.Query;
+import org.orienteer.transponder.annotation.common.Sudo;
 import org.orienteer.vuecket.extensions.VueAdvancedChat.ChatMessage;
 import org.orienteer.vuecket.extensions.VueAdvancedChat.ChatUser;
 import org.orienteer.vuecket.extensions.VueAdvancedChat.Room;
@@ -96,7 +94,7 @@ public interface IDAOCRM {
 		return OrienteerWebApplication.lookupApplication().getServiceInstance(IDAOCRM.class);
 	}
 	
-	@DAOHandler(SudoMethodHandler.class)
+	@Sudo
 	public default void incomingSMS(String from, String to, String content, String externalId) {
 		IPerson fromPerson = getPersonByPhone(from);
 		IPerson toPerson = getPersonByPhone(to);
@@ -118,7 +116,7 @@ public interface IDAOCRM {
 		}
 	}
 	
-	@DAOHandler(SudoMethodHandler.class)
+	@Sudo
 	public default boolean statusUpdate(String messageSID, String status, String from, String to, String errorCode) {
 		IInteraction interaction = DAO.create(IInteraction.class);
 		if(interaction.lookupByExternalId(messageSID)) {
@@ -151,7 +149,7 @@ public interface IDAOCRM {
 		}
 	}
 	
-	@DAOHandler(SudoMethodHandler.class)
+	@Sudo
 	public default String getManagerPhone(String from) {
 		IPerson person = getPersonByPhone(from);
 		OUser managerUser=null;

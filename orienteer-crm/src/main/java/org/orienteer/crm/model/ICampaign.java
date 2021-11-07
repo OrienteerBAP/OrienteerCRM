@@ -11,14 +11,18 @@ import org.orienteer.core.component.BootstrapType;
 import org.orienteer.core.component.FAIconType;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
-import org.orienteer.core.dao.DAOField;
-import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOClass;
+import org.orienteer.core.dao.OrienteerOProperty;
 import org.orienteer.core.method.IMethodContext;
 import org.orienteer.core.method.OFilter;
 import org.orienteer.core.method.OMethod;
 import org.orienteer.core.method.filters.PlaceFilter;
 import org.orienteer.core.method.filters.WidgetTypeFilter;
+import org.orienteer.transponder.annotation.DefaultValue;
+import org.orienteer.transponder.annotation.EntityProperty;
+import org.orienteer.transponder.annotation.EntityType;
+import org.orienteer.transponder.orientdb.OrientDBProperty;
 
 import com.google.inject.ProvidedBy;
 import com.orientechnologies.orient.core.metadata.schema.OType;
@@ -28,7 +32,8 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
  * Marketing campaign 
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = ICampaign.CLASS_NAME,
+@EntityType(value = ICampaign.CLASS_NAME)
+@OrienteerOClass(
 		   displayable = {"name", "status", "created", "startTime"},
 		   sortProperty = "created",
 		   sortOrder = SortOrder.DESCENDING)
@@ -38,48 +43,53 @@ public interface ICampaign {
 	public String getName();
 	public void setName(String value);
 	
-	@DAOField(uiReadOnly = true, defaultValue = "DRAFT")
+	@OrientDBProperty(defaultValue = "DRAFT")
+	@OrienteerOProperty(uiReadOnly = true)
 	public CampaignStatus getStatus();
 	public void setStatus(CampaignStatus value);
 	
-	@DAOField(type = OType.DATETIME, defaultValue = "sysdate()", readOnly = true)
+	@OrientDBProperty(type = OType.DATETIME, defaultValue = "sysdate()", readOnly = true)
 	public Date getCreated();
 	public void setCreated(Date value);
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_TABLE, tab = "leads", inverse = "campaigns")
+	@EntityProperty(inverse = "campaigns")
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_TABLE, tab = "leads")
 	public List<ILead> getLeads();
 	public void setLeads(List<ILead> value);
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_LISTBOX, inverse = "campaigns")
+	@EntityProperty(inverse = "campaigns")
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_LISTBOX)
 	public List<ITemplate> getTemplates();
 	public void setTemplates(List<ITemplate> value);
 
-	@DAOField(defaultValue = "50")
+	@OrientDBProperty(defaultValue = "50")
 	public int getInteractionsPerTemplate();
 	public void setInteractionsPerTemplate(int value);
 	
-	@DAOField(defaultValue = "10")
+	@OrientDBProperty(defaultValue = "10")
 	public int getRate();
 	public void setRate(int value);
 	
-	@DAOField(type = OType.DATETIME)
+	@OrientDBProperty(type = OType.DATETIME)
 	public Date getStartTime();
 	public void setStartTime(Date value);
 	
-	@DAOField(linkedClass = "OUser", defaultValue = "ouser()", readOnly = true)
+	@EntityProperty(referencedType = "OUser")
+	@OrientDBProperty( defaultValue = "ouser()", readOnly = true)
 	public IPerson getAuthor();
 	public void setAuthor(IPerson value);
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_LISTBOX)
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_LISTBOX)
 	public IFunnelStage getFunnelStage();
 	public void setFunnelStage(IFunnelStage value);
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_LISTBOX)
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_LISTBOX)
 	public IFunnelStage getErrorFunnelStage();
 	public void setErrorFunnelStage(IFunnelStage value);
 	
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_TABLE, inverse = "campaign", tab="startingInteractions")
+	@EntityProperty(inverse = "campaign")
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_TABLE, tab="startingInteractions")
 	public List<IInteraction> getInteractions();
 	public void setInteractions(List<IInteraction> value);
 	

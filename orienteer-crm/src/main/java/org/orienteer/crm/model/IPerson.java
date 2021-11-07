@@ -4,15 +4,16 @@ import org.apache.wicket.util.string.Strings;
 import org.orienteer.core.OrienteerWebSession;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
-import org.orienteer.core.dao.DAOField;
-import org.orienteer.core.dao.DAOFieldIndex;
-import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOClass;
+import org.orienteer.core.dao.OrienteerOProperty;
+import org.orienteer.transponder.annotation.EntityPropertyIndex;
+import org.orienteer.transponder.annotation.EntityType;
+import org.orienteer.transponder.orientdb.ODriver;
 import org.orienteer.vuecket.extensions.VueAdvancedChat.ChatUser;
 
 import com.google.common.base.Joiner;
 import com.google.inject.ProvidedBy;
-import com.orientechnologies.orient.core.metadata.schema.OClass.INDEX_TYPE;
 import com.orientechnologies.orient.core.metadata.security.OUser;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
@@ -20,9 +21,8 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
  * Super class to represent all required info about a person
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IPerson.CLASS_NAME, 
-		   orderOffset = 50,
-		   displayable = {"firstName", "lastName", "phone", "address", "city", "state"})
+@EntityType(value = IPerson.CLASS_NAME, orderOffset = 50)
+@OrienteerOClass(displayable = {"firstName", "lastName", "phone", "address", "city", "state"})
 public interface IPerson {
 	public static final String CLASS_NAME = "Person";
 	
@@ -35,7 +35,7 @@ public interface IPerson {
 	public String getLastName();
 	public IPerson setLastName(String value);
 	
-	@DAOFieldIndex(type = INDEX_TYPE.NOTUNIQUE)
+	@EntityPropertyIndex(type = ODriver.OINDEX_NOTUNIQUE)
 	public String getPhone();
 	public IPerson setPhone(String value);
 	
@@ -48,7 +48,7 @@ public interface IPerson {
 	public String getCity();
 	public IPerson setCity(String value);
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_SUGGEST)
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_SUGGEST)
 	public IState getState();
 	public IPerson setState(IState value);
 	
@@ -72,7 +72,7 @@ public interface IPerson {
 	}
 	
 	public static IPerson fromOUser(OUser user) {
-		return user!=null?DAO.provide(IPerson.class, user):null;
+		return user!=null?DAO.provide(IPerson.class, user.getDocument()):null;
 	}
 	
 	public static IPerson fromOUserDocument(ODocument user) {

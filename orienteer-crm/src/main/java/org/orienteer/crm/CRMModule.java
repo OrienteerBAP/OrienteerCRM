@@ -86,14 +86,14 @@ public class CRMModule extends AbstractOrienteerModule{
 	
 	public void installSchemaAndData(OrienteerWebApplication app, ODatabaseSession db) {
 		OSchemaHelper helper = OSchemaHelper.bind(db);
-		DAO.describe(helper, IState.class, 
-							 IPerson.class,
-							 ILead.class, 
-							 IFunnelStage.class, 
-							 IInteraction.class,
-							 ICRMModuleConfiguration.class,
-							 ITemplate.class,
-							 ICampaign.class);
+		DAO.define(IState.class, 
+					 IPerson.class,
+					 ILead.class, 
+					 IFunnelStage.class, 
+					 IInteraction.class,
+					 ICRMModuleConfiguration.class,
+					 ITemplate.class,
+					 ICampaign.class);
 		OClass oUserClass = db.getMetadata().getSchema().getClass(OUser.CLASS_NAME);
 		OClass personClass = db.getMetadata().getSchema().getClass(IPerson.CLASS_NAME);
 		if(!personClass.isSuperClassOf(oUserClass)) {

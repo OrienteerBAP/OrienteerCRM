@@ -4,11 +4,15 @@ import java.util.Date;
 
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
 import org.orienteer.core.dao.DAO;
-import org.orienteer.core.dao.DAOField;
-import org.orienteer.core.dao.DAOFieldIndex;
-import org.orienteer.core.dao.DAOOClass;
-import org.orienteer.core.dao.Lookup;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOClass;
+import org.orienteer.core.dao.OrienteerOProperty;
+import org.orienteer.transponder.annotation.EntityProperty;
+import org.orienteer.transponder.annotation.EntityPropertyIndex;
+import org.orienteer.transponder.annotation.EntityType;
+import org.orienteer.transponder.annotation.Lookup;
+import org.orienteer.transponder.orientdb.ODriver;
+import org.orienteer.transponder.orientdb.OrientDBProperty;
 
 import com.google.inject.ProvidedBy;
 import com.orientechnologies.orient.core.metadata.schema.OClass.INDEX_TYPE;
@@ -17,59 +21,61 @@ import com.orientechnologies.orient.core.metadata.schema.OClass.INDEX_TYPE;
  * Single interaction with or by lead/contact
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IInteraction.CLASS_NAME,
-		   sortProperty = "timestamp",
-		   sortOrder = SortOrder.DESCENDING, 
-		   nameProperty = "timestamp")
+@EntityType(value = IInteraction.CLASS_NAME)
+@OrienteerOClass(sortProperty = "timestamp",
+				 sortOrder = SortOrder.DESCENDING, 
+				 nameProperty = "timestamp")
 public interface IInteraction {
 	public static final String CLASS_NAME = "Interaction";
 	
-	@DAOField(uiReadOnly = true)
+	@OrienteerOProperty(uiReadOnly = true)
 	public Date getTimestamp();
 	public IInteraction setTimestamp(Date value);
 	
-	@DAOField(uiReadOnly = true)
-	@DAOFieldIndex(type = INDEX_TYPE.NOTUNIQUE)
+	@OrienteerOProperty(uiReadOnly = true)
+	@EntityPropertyIndex(type = ODriver.OINDEX_NOTUNIQUE)
 	public IPerson getFrom();
 	public IInteraction setFrom(IPerson value);
 	
-	@DAOField(uiReadOnly = true)
-	@DAOFieldIndex(type = INDEX_TYPE.NOTUNIQUE)
+	@OrienteerOProperty(uiReadOnly = true)
+	@EntityPropertyIndex(type = ODriver.OINDEX_NOTUNIQUE)
 	public String getFromPhone();
 	public IInteraction setFromPhone(String value);
 	
-	@DAOField(uiReadOnly = true)
-	@DAOFieldIndex(type = INDEX_TYPE.NOTUNIQUE)
+	@OrienteerOProperty(uiReadOnly = true)
+	@EntityPropertyIndex(type = ODriver.OINDEX_NOTUNIQUE)
 	public IPerson getTo();
 	public IInteraction setTo(IPerson value);
 	
-	@DAOField(uiReadOnly = true)
-	@DAOFieldIndex(type = INDEX_TYPE.NOTUNIQUE)
+	@OrienteerOProperty(uiReadOnly = true)
+	@EntityPropertyIndex(type = ODriver.OINDEX_NOTUNIQUE)
 	public String getToPhone();
 	public IInteraction setToPhone(String value);
 	
-	@DAOField(uiReadOnly = true, collate = "ci")
+	@OrientDBProperty(collate = "ci")
+	@OrienteerOProperty(uiReadOnly = true)
 	public String getContent();
 	public IInteraction setContent(String value);
 	
-	@DAOField(uiReadOnly = true)
+	@OrienteerOProperty(uiReadOnly = true)
 	public InteractionStatus getStatus();
 	public IInteraction setStatus(InteractionStatus value);
 
-	@DAOField(uiReadOnly = true)
+	@OrienteerOProperty(uiReadOnly = true)
 	public String getStatusDetails();
 	public IInteraction setStatusDetails(String value);
 	
-	@DAOField(uiReadOnly = true)
-	@DAOFieldIndex(type = INDEX_TYPE.NOTUNIQUE)
+	@OrienteerOProperty(uiReadOnly = true)
+	@EntityPropertyIndex(type = ODriver.OINDEX_NOTUNIQUE)
 	public String getExternalId();
 	public IInteraction setExternalId(String value);
 
-	@DAOField(uiReadOnly = true)
+	@OrienteerOProperty(uiReadOnly = true)
 	public ITemplate getTemplate();
 	public IInteraction setTemplate(ITemplate value);
 	
-	@DAOField(uiReadOnly = true, inverse = "interactions")
+	@EntityProperty(inverse = "interactions")
+	@OrienteerOProperty(uiReadOnly = true)
 	public ICampaign getCampaign();
 	public IInteraction setCampaign(ICampaign value);
 	
